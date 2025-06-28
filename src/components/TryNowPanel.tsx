@@ -254,9 +254,9 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
 
     return (
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center space-x-3">
-            <h5 className="text-md font-semibold text-gray-200">Response</h5>
+            <h5 className="text-sm sm:text-md font-semibold text-gray-200">Response</h5>
             <div className="flex items-center space-x-2">
               <ResponseIcon className="w-4 h-4 text-red-400" />
               <span className="text-xs text-gray-400 uppercase tracking-wide">
@@ -264,8 +264,8 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
               </span>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
               response.status >= 200 && response.status < 300
                 ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                 : response.status >= 400
@@ -274,7 +274,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
             }`}>
               {response.status} {response.statusText}
             </span>
-            <span className="text-xs text-gray-400 px-2 py-1 bg-gray-800/50 rounded">
+            <span className="text-xs text-gray-400 px-2 py-1 bg-gray-800/50 rounded break-all">
               {response.contentType}
             </span>
             <span className="text-xs text-gray-400 px-2 py-1 bg-gray-800/50 rounded">
@@ -284,51 +284,54 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setViewMode('preview')}
-            className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
-              viewMode === 'preview' 
-                ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
-          >
-            <Eye className="w-4 h-4" />
-            <span>Preview</span>
-          </button>
-          <button
-            onClick={() => setViewMode('raw')}
-            className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
-              viewMode === 'raw' 
-                ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
-                : 'text-gray-400 hover:text-gray-200'
-            }`}
-          >
-            <Code className="w-4 h-4" />
-            <span>Raw</span>
-          </button>
-          <div className="flex-1"></div>
-          <button
-            onClick={downloadResponse}
-            className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
-          >
-            <Download className="w-4 h-4" />
-            <span>Download</span>
-          </button>
-          <button
-            onClick={openInNewTab}
-            className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span>Open</span>
-          </button>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setViewMode('preview')}
+              className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
+                viewMode === 'preview' 
+                  ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
+                  : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              <Eye className="w-4 h-4" />
+              <span>Preview</span>
+            </button>
+            <button
+              onClick={() => setViewMode('raw')}
+              className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
+                viewMode === 'raw' 
+                  ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
+                  : 'text-gray-400 hover:text-gray-200'
+              }`}
+            >
+              <Code className="w-4 h-4" />
+              <span>Raw</span>
+            </button>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={downloadResponse}
+              className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download</span>
+            </button>
+            <button
+              onClick={openInNewTab}
+              className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span>Open</span>
+            </button>
+          </div>
         </div>
 
         {/* Response Content */}
         {viewMode === 'preview' ? (
           <div className="bg-black/30 rounded-xl border border-red-900/30 overflow-hidden">
             {response.responseType === 'image' && response.url && (
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <img
                   src={response.url}
                   alt="Response content"
@@ -339,7 +342,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
             )}
             
             {response.responseType === 'html' && (
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <iframe
                   srcDoc={response.data}
                   className="w-full h-96 border border-red-800/50 rounded-lg bg-white"
@@ -365,12 +368,12 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
             )}
             
             {response.responseType === 'binary' && (
-              <div className="p-6 text-center">
+              <div className="p-4 sm:p-6 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-xl mb-4">
                   <Download className="w-8 h-8 text-red-400" />
                 </div>
                 <h6 className="text-gray-200 font-medium mb-2">Binary File</h6>
-                <p className="text-gray-400 text-sm mb-4">
+                <p className="text-gray-400 text-sm mb-4 break-words">
                   {response.contentType} • {formatFileSize(response.size)}
                 </p>
                 <button
@@ -401,12 +404,12 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h4 className="text-lg font-semibold text-white">Try This Endpoint</h4>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h4 className="text-base sm:text-lg font-semibold text-white">Try This Endpoint</h4>
         <button
           onClick={executeRequest}
           disabled={loading}
-          className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-red-500/25"
+          className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-red-500/25 w-full sm:w-auto"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -420,12 +423,12 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
       {/* Parameters Input */}
       {endpoint.parameters && endpoint.parameters.length > 0 && (
         <div className="space-y-4">
-          <h5 className="text-md font-semibold text-gray-200">Parameters</h5>
+          <h5 className="text-sm sm:text-md font-semibold text-gray-200">Parameters</h5>
           <div className="grid gap-4">
             {endpoint.parameters.map((param, index) => (
               <div key={index} className="space-y-2">
-                <label className="flex items-center space-x-2 text-sm">
-                  <span className="text-red-300 font-mono">{param.name}</span>
+                <label className="flex flex-wrap items-center gap-2 text-sm">
+                  <span className="text-red-300 font-mono break-all">{param.name}</span>
                   <span className="text-gray-400">({param.type})</span>
                   {param.required && (
                     <span className="text-red-400 text-xs">*</span>
@@ -436,9 +439,9 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
                   value={parameters[param.name] || ''}
                   onChange={(e) => handleParameterChange(param.name, e.target.value)}
                   placeholder={param.example || `Enter ${param.name}`}
-                  className="w-full px-3 py-2 bg-black/50 border border-red-800/50 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400"
+                  className="w-full px-3 py-2 bg-black/50 border border-red-800/50 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400 text-sm sm:text-base"
                 />
-                <p className="text-xs text-gray-400">{param.description}</p>
+                <p className="text-xs text-gray-400 break-words">{param.description}</p>
               </div>
             ))}
           </div>
@@ -447,9 +450,9 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
 
       {/* Request URL Preview */}
       <div className="space-y-2">
-        <h5 className="text-md font-semibold text-gray-200">Request URL</h5>
+        <h5 className="text-sm sm:text-md font-semibold text-gray-200">Request URL</h5>
         <div className="bg-black/50 rounded-lg p-3 border border-red-800/50">
-          <code className="text-red-300 text-sm break-all">
+          <code className="text-red-300 text-xs sm:text-sm break-all">
             {endpoint.method} {buildUrl()}
           </code>
         </div>
@@ -462,7 +465,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
       {error && (
         <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
           <h5 className="text-red-400 font-semibold mb-2">Error</h5>
-          <p className="text-red-300 text-sm">{error}</p>
+          <p className="text-red-300 text-sm break-words">{error}</p>
         </div>
       )}
     </div>

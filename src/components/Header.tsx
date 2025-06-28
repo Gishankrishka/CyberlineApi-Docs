@@ -30,19 +30,19 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-16">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-6">
-            <div className="relative">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8 mb-6 lg:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <div className="relative flex-shrink-0 mx-auto sm:mx-0">
               {/* Cyberline Favicon Logo */}
-              <div className="w-20 h-20 relative">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 relative">
                 <div className="absolute inset-0 rounded-full border-4 border-red-500 border-r-transparent animate-spin"></div>
                 <div className="absolute inset-2 rounded-full border-2 border-red-400 border-r-transparent animate-spin" style={{ animationDirection: 'reverse' }}></div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img 
                     src="https://cyberlineapi.vercel.app/favicon.ico" 
                     alt="Cyberline Logo" 
-                    className="w-10 h-10 rounded-lg"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg"
                     onError={(e) => {
                       // Fallback to local favicon if external fails
                       e.currentTarget.src = '/favicon.ico';
@@ -50,16 +50,16 @@ export const Header: React.FC<HeaderProps> = ({
                   />
                 </div>
               </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-400 rounded-full animate-ping"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-400 rounded-full"></div>
             </div>
-            <div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-red-200 to-red-300 bg-clip-text text-transparent mb-2">
+            <div className="text-center sm:text-left">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-red-200 to-red-300 bg-clip-text text-transparent mb-2 break-words">
                 {title}
               </h1>
-              <p className="text-red-300 text-lg font-medium mb-3">Navigating the Digital Frontier</p>
-              <div className="flex items-center space-x-6">
-                <div className="flex items-center space-x-2">
+              <p className="text-red-300 text-base sm:text-lg font-medium mb-3">Navigating the Digital Frontier</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
                   <span className="px-3 py-1 bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/30 rounded-full text-sm font-medium text-red-300">
                     v{version}
                   </span>
@@ -69,9 +69,10 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                 </div>
                 {lastFetched && (
-                  <div className="flex items-center space-x-2 text-gray-400 text-sm">
+                  <div className="flex items-center justify-center sm:justify-start space-x-2 text-gray-400 text-sm">
                     <Clock className="w-4 h-4" />
-                    <span>Updated {lastFetched.toLocaleTimeString()}</span>
+                    <span className="hidden sm:inline">Updated {lastFetched.toLocaleTimeString()}</span>
+                    <span className="sm:hidden">{lastFetched.toLocaleTimeString()}</span>
                   </div>
                 )}
               </div>
@@ -81,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onRefresh}
             disabled={isLoading}
-            className="group flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 shadow-lg hover:shadow-red-500/25 border border-red-500/20"
+            className="group flex items-center justify-center space-x-2 px-4 sm:px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-all duration-300 shadow-lg hover:shadow-red-500/25 border border-red-500/20 w-full sm:w-auto"
           >
             <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : 'group-hover:rotate-180'} transition-transform duration-300`} />
             <span className="font-medium">Refresh</span>
@@ -89,19 +90,19 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
         
         <div className="max-w-4xl">
-          <p className="text-gray-300 text-lg leading-relaxed mb-6">
+          <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6 text-center sm:text-left">
             {description}
           </p>
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2 text-red-400">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 justify-center sm:justify-start">
+            <div className="flex items-center justify-center space-x-2 text-red-400">
               <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
               <span className="text-sm font-medium">Real-time Updates</span>
             </div>
-            <div className="flex items-center space-x-2 text-red-300">
+            <div className="flex items-center justify-center space-x-2 text-red-300">
               <div className="w-2 h-2 bg-red-300 rounded-full"></div>
               <span className="text-sm font-medium">Interactive Testing</span>
             </div>
-            <div className="flex items-center space-x-2 text-red-200">
+            <div className="flex items-center justify-center space-x-2 text-red-200">
               <div className="w-2 h-2 bg-red-200 rounded-full"></div>
               <span className="text-sm font-medium">Production Ready</span>
             </div>

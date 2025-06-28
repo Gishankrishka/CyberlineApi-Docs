@@ -68,11 +68,11 @@ function App() {
         availableMethods={availableMethods}
       />
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {filteredEndpoints.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-400 text-xl mb-2">No endpoints found</div>
-            <p className="text-gray-500">
+            <div className="text-gray-400 text-lg sm:text-xl mb-2">No endpoints found</div>
+            <p className="text-gray-500 text-sm sm:text-base">
               {searchTerm || selectedMethod 
                 ? 'Try adjusting your search criteria'
                 : 'No API endpoints are available'
@@ -81,18 +81,18 @@ function App() {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
                 API Endpoints ({filteredEndpoints.length})
               </h2>
               {error && (
-                <div className="text-red-300 text-sm bg-red-900/30 border border-red-700 px-3 py-2 rounded-md">
+                <div className="text-red-300 text-xs sm:text-sm bg-red-900/30 border border-red-700 px-3 py-2 rounded-md">
                   Warning: Some data may be outdated due to connection issues
                 </div>
               )}
             </div>
             
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               {filteredEndpoints.map((endpoint, index) => (
                 <EndpointCard 
                   key={`${endpoint.method}-${endpoint.path}-${index}`} 
@@ -105,23 +105,40 @@ function App() {
         )}
       </main>
 
-      <footer className="bg-black/50 border-t border-red-900/30 text-gray-400 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6">
+      <footer className="bg-black/50 border-t border-red-900/30 text-gray-400 py-6 sm:py-8 mt-12 sm:mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center space-y-4">
             <div className="flex items-center justify-center space-x-2">
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-              <p className="text-sm font-medium text-gray-300">
+              <p className="text-xs sm:text-sm font-medium text-gray-300 text-center">
                 Real-time API Documentation • Updates every 30 seconds
               </p>
             </div>
             {lastFetched && (
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 text-center">
                 Last updated: {lastFetched.toLocaleString()}
               </p>
             )}
-            <div className="pt-4 border-t border-red-900/30 text-center">
+            <div className="pt-4 border-t border-red-900/30 text-center w-full">
               <p className="text-xs text-gray-400 mb-2">
-                Powered by <a href="https://t.me/Cyberline_Official" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 transition-colors">Cyberline</a> • © 2025 <a href="https://t.me/KrishDev" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:text-red-300 transition-colors"> Gishan Krishka</a>
+                Powered by{' '}
+                <a 
+                  href="https://t.me/Cyberline_Official" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Cyberline
+                </a>
+                {' • © 2025 '}
+                <a 
+                  href="https://t.me/KrishDev" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Gishan Krishka
+                </a>
               </p>
             </div>
           </div>
