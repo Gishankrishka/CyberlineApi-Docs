@@ -253,7 +253,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
     const ResponseIcon = getResponseIcon(response.responseType);
 
     return (
-      <div className="space-y-4">
+      <div className="space-y-4 mr-4 sm:mr-6 lg:mr-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center space-x-3">
             <h5 className="text-sm sm:text-md font-semibold text-gray-200">Response</h5>
@@ -329,13 +329,13 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
 
         {/* Response Content */}
         {viewMode === 'preview' ? (
-          <div className="bg-black/30 rounded-xl border border-red-900/30 overflow-hidden">
+          <div className="bg-black/30 rounded-xl border border-gray-700/50 overflow-hidden">
             {response.responseType === 'image' && response.url && (
               <div className="p-4 sm:p-6">
                 <img
                   src={response.url}
                   alt="Response content"
-                  className="w-full max-w-lg mx-auto rounded-lg border border-red-800/50 shadow-lg"
+                  className="w-full max-w-lg mx-auto rounded-lg border border-gray-600/50 shadow-lg"
                   style={{ maxHeight: '500px', objectFit: 'contain' }}
                 />
               </div>
@@ -345,7 +345,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
               <div className="p-4 sm:p-6">
                 <iframe
                   srcDoc={response.data}
-                  className="w-full h-96 border border-red-800/50 rounded-lg bg-white"
+                  className="w-full h-96 border border-gray-600/50 rounded-lg bg-white"
                   title="HTML Preview"
                 />
               </div>
@@ -403,7 +403,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mr-4 sm:mr-6 lg:mr-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h4 className="text-base sm:text-lg font-semibold text-white">Try This Endpoint</h4>
         <button
@@ -439,7 +439,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
                   value={parameters[param.name] || ''}
                   onChange={(e) => handleParameterChange(param.name, e.target.value)}
                   placeholder={param.example || `Enter ${param.name}`}
-                  className="w-full px-3 py-2 bg-black/50 border border-red-800/50 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400 text-sm sm:text-base"
+                  className="w-full px-3 py-2 bg-gray-900/50 border border-gray-700/50 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400 text-sm sm:text-base"
                 />
                 <p className="text-xs text-gray-400 break-words">{param.description}</p>
               </div>
@@ -451,8 +451,8 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
       {/* Request URL Preview */}
       <div className="space-y-2">
         <h5 className="text-sm sm:text-md font-semibold text-gray-200">Request URL</h5>
-        <div className="bg-black/50 rounded-lg p-3 border border-red-800/50">
-          <code className="text-red-300 text-xs sm:text-sm break-all">
+        <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700/50 overflow-x-auto">
+          <code className="text-red-300 text-xs sm:text-sm whitespace-nowrap">
             {endpoint.method} {buildUrl()}
           </code>
         </div>
@@ -463,7 +463,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
 
       {/* Error */}
       {error && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mr-4 sm:mr-6 lg:mr-8">
           <h5 className="text-red-400 font-semibold mb-2">Error</h5>
           <p className="text-red-300 text-sm break-words">{error}</p>
         </div>

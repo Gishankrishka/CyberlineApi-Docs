@@ -21,9 +21,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'json', t
   };
 
   return (
-    <div className="bg-black/60 rounded-xl overflow-hidden border border-red-900/30">
+    <div className="bg-black/60 rounded-xl overflow-hidden border border-gray-700/50 mr-4 sm:mr-6 lg:mr-8">
       {title && (
-        <div className="px-4 py-3 bg-black/40 border-b border-red-900/30 flex items-center justify-between">
+        <div className="px-4 py-3 bg-black/40 border-b border-gray-700/50 flex items-center justify-between">
           <span className="text-gray-300 text-sm font-medium">{title}</span>
           <button
             onClick={handleCopy}
@@ -34,11 +34,13 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'json', t
           </button>
         </div>
       )}
-      <pre className="p-4 overflow-x-auto">
-        <code className="text-sm text-gray-300 leading-relaxed">
-          {code}
-        </code>
-      </pre>
+      <div className="overflow-x-auto">
+        <pre className="p-4 min-w-0">
+          <code className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
+            {code}
+          </code>
+        </pre>
+      </div>
     </div>
   );
 };

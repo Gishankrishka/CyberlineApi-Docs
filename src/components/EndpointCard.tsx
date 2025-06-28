@@ -26,7 +26,7 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, baseUrl })
   ].filter(tab => tab.show);
 
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-2xl border border-red-900/30 hover:border-red-700/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-red-500/10">
+    <div className="bg-gray-900/40 backdrop-blur-sm rounded-2xl border border-gray-700/50 hover:border-red-500/30 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-red-500/10">
       <div
         className="p-4 sm:p-6 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -66,8 +66,8 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, baseUrl })
       </div>
 
       {isExpanded && (
-        <div className="border-t border-red-900/30">
-          <div className="flex overflow-x-auto border-b border-red-900/30 bg-black/20 scrollbar-hide">
+        <div className="border-t border-gray-700/50">
+          <div className="flex overflow-x-auto border-b border-gray-700/50 bg-black/20 scrollbar-hide">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
@@ -93,13 +93,13 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, baseUrl })
                 <h4 className="text-base sm:text-lg font-semibold text-white">Parameters</h4>
                 <div className="space-y-3">
                   {endpoint.parameters!.map((param, index) => (
-                    <div key={index} className="bg-black/40 rounded-xl p-3 sm:p-4 border border-red-900/30">
+                    <div key={index} className="bg-black/40 rounded-xl p-3 sm:p-4 border border-gray-700/50">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono text-sm font-semibold text-red-300 break-all">
                             {param.name}
                           </span>
-                          <span className="px-2 py-1 bg-red-900/30 text-red-300 rounded text-xs border border-red-800/50">
+                          <span className="px-2 py-1 bg-gray-700/50 text-gray-300 rounded text-xs border border-gray-600/50">
                             {param.type}
                           </span>
                           {param.required && (
@@ -113,7 +113,7 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, baseUrl })
                       {param.example && (
                         <div className="mt-2">
                           <span className="text-xs text-gray-500 uppercase tracking-wide">Example:</span>
-                          <code className="block mt-1 bg-black/60 p-2 rounded border border-red-800/50 text-xs font-mono text-red-300 break-all">
+                          <code className="block mt-1 bg-black/60 p-2 rounded border border-gray-600/50 text-xs font-mono text-red-300 break-all">
                             {param.example}
                           </code>
                         </div>
@@ -129,7 +129,7 @@ export const EndpointCard: React.FC<EndpointCardProps> = ({ endpoint, baseUrl })
                 <h4 className="text-base sm:text-lg font-semibold text-white">Responses</h4>
                 <div className="space-y-4">
                   {endpoint.responses!.map((response, index) => (
-                    <div key={index} className="border border-red-900/30 rounded-xl p-3 sm:p-4 bg-black/20">
+                    <div key={index} className="border border-gray-700/50 rounded-xl p-3 sm:p-4 bg-black/20">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
                         <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                           response.status >= 200 && response.status < 300

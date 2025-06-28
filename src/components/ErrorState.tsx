@@ -8,8 +8,8 @@ interface ErrorStateProps {
 
 export const ErrorState: React.FC<ErrorStateProps> = ({ error, onRetry }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-red-950 to-black">
-      <div className="text-center max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="text-center max-w-md mx-4">
         <div className="relative mb-6">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-red-500/20 border border-red-500/30 rounded-2xl">
             <AlertCircle className="w-10 h-10 text-red-400" />
