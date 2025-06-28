@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Code, Clock, Activity } from 'lucide-react';
+import { RefreshCw, Clock, Activity } from 'lucide-react';
 
 interface HeaderProps {
   title: string;
@@ -34,12 +34,20 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-6">
             <div className="relative">
-              {/* Cyberline C Logo */}
+              {/* Cyberline Favicon Logo */}
               <div className="w-20 h-20 relative">
                 <div className="absolute inset-0 rounded-full border-4 border-red-500 border-r-transparent animate-spin"></div>
                 <div className="absolute inset-2 rounded-full border-2 border-red-400 border-r-transparent animate-spin" style={{ animationDirection: 'reverse' }}></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Code className="w-8 h-8 text-red-400" />
+                  <img 
+                    src="https://cyberlineapi.vercel.app/favicon.ico" 
+                    alt="Cyberline Logo" 
+                    className="w-10 h-10 rounded-lg"
+                    onError={(e) => {
+                      // Fallback to local favicon if external fails
+                      e.currentTarget.src = '/favicon.ico';
+                    }}
+                  />
                 </div>
               </div>
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
