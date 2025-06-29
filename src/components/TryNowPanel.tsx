@@ -253,7 +253,7 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
     const ResponseIcon = getResponseIcon(response.responseType);
 
     return (
-      <div className="space-y-4 mr-4 sm:mr-6 lg:mr-8">
+      <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center space-x-3">
             <h5 className="text-sm sm:text-md font-semibold text-gray-200">Response</h5>
@@ -274,198 +274,185 @@ export const TryNowPanel: React.FC<TryNowPanelProps> = ({ endpoint, baseUrl }) =
             }`}>
               {response.status} {response.statusText}
             </span>
-            <span className="text-xs text-gray-400 px-2 py-1 bg-gray-800/50 rounded break-all">
-              {response.contentType}
-            </span>
-            <span className="text-xs text-gray-400 px-2 py-1 bg-gray-800/50 rounded">
+            <span className="text-xs text-gray-400">
               {formatFileSize(response.size)}
             </span>
+            <div className="flex items-center space-x-1">
+              <button
+                onClick={downloadResponse}
+                className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                title="Download response"
+              >
+                <Download className="w-4 h-4" />
+              </button>
+              <button
+                onClick={openInNewTab}
+                className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                title="Open in new tab"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setViewMode('preview')}
-              className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
-                viewMode === 'preview' 
-                  ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
-                  : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <Eye className="w-4 h-4" />
-              <span>Preview</span>
-            </button>
-            <button
-              onClick={() => setViewMode('raw')}
-              className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-sm transition-colors ${
-                viewMode === 'raw' 
-                  ? 'bg-red-600/20 text-red-300 border border-red-500/30' 
-                  : 'text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              <Code className="w-4 h-4" />
-              <span>Raw</span>
-            </button>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={downloadResponse}
-              className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download</span>
-            </button>
-            <button
-              onClick={openInNewTab}
-              className="flex items-center space-x-1 px-3 py-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 rounded-lg transition-colors text-sm"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span>Open</span>
-            </button>
-          </div>
-        </div>
+        {/* Response content based on type */}
+        <div className="bg-gray-900 rounded-lg border border-gray-700">
+          {response.responseType === 'image' && response.url && (
+            <div className="p-4">
+              <img 
+                src={response.url} 
+                alt="API Response" 
+                className="max-w-full h-auto rounded border border-gray-600"
+              />
+            </div>
+          )}
 
-        {/* Response Content */}
-        {viewMode === 'preview' ? (
-          <div className="bg-black/30 rounded-xl border border-gray-700/50 overflow-hidden">
-            {response.responseType === 'image' && response.url && (
-              <div className="p-4 sm:p-6">
-                <img
-                  src={response.url}
-                  alt="Response content"
-                  className="w-full max-w-lg mx-auto rounded-lg border border-gray-600/50 shadow-lg"
-                  style={{ maxHeight: '500px', objectFit: 'contain' }}
-                />
-              </div>
-            )}
-            
-            {response.responseType === 'html' && (
-              <div className="p-4 sm:p-6">
-                <iframe
-                  srcDoc={response.data}
-                  className="w-full h-96 border border-gray-600/50 rounded-lg bg-white"
-                  title="HTML Preview"
-                />
-              </div>
-            )}
-            
-            {response.responseType === 'json' && (
-              <CodeBlock
-                code={JSON.stringify(response.data, null, 2)}
-                language="json"
-                title="JSON Response"
-              />
-            )}
-            
-            {['xml', 'csv', 'text'].includes(response.responseType) && (
-              <CodeBlock
-                code={response.data}
-                language={response.responseType === 'xml' ? 'xml' : 'text'}
-                title={`${response.responseType.toUpperCase()} Response`}
-              />
-            )}
-            
-            {response.responseType === 'binary' && (
-              <div className="p-4 sm:p-6 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-xl mb-4">
-                  <Download className="w-8 h-8 text-red-400" />
-                </div>
-                <h6 className="text-gray-200 font-medium mb-2">Binary File</h6>
-                <p className="text-gray-400 text-sm mb-4 break-words">
-                  {response.contentType} • {formatFileSize(response.size)}
-                </p>
+          {response.responseType === 'html' && (
+            <div className="p-4">
+              <div className="flex items-center space-x-2 mb-3">
                 <button
-                  onClick={downloadResponse}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                  onClick={() => setViewMode('preview')}
+                  className={`px-3 py-1 text-xs rounded ${
+                    viewMode === 'preview'
+                      ? 'bg-red-500 text-white'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
                 >
-                  Download File
+                  <Eye className="w-3 h-3 inline mr-1" />
+                  Preview
+                </button>
+                <button
+                  onClick={() => setViewMode('raw')}
+                  className={`px-3 py-1 text-xs rounded ${
+                    viewMode === 'raw'
+                      ? 'bg-red-500 text-white'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  <Code className="w-3 h-3 inline mr-1" />
+                  Raw
                 </button>
               </div>
-            )}
-            
-            {response.responseType === 'unknown' && (
-              <CodeBlock
-                code={response.rawText || 'Unknown content type'}
-                title="Raw Response"
+              
+              {viewMode === 'preview' ? (
+                <div 
+                  className="bg-white rounded border border-gray-600 min-h-[200px]"
+                  dangerouslySetInnerHTML={{ __html: response.data }}
+                />
+              ) : (
+                <CodeBlock code={response.data} language="html" />
+              )}
+            </div>
+          )}
+
+          {['json', 'xml', 'csv', 'text'].includes(response.responseType) && (
+            <div className="p-4">
+              <CodeBlock 
+                code={response.responseType === 'json' ? JSON.stringify(response.data, null, 2) : response.data}
+                language={response.responseType === 'json' ? 'json' : response.responseType}
               />
-            )}
-          </div>
-        ) : (
-          <CodeBlock
-            code={response.rawText || ''}
-            title="Raw Response Data"
-          />
-        )}
+            </div>
+          )}
+
+          {response.responseType === 'binary' && (
+            <div className="p-4 text-center">
+              <div className="text-gray-400 mb-4">
+                <Download className="w-12 h-12 mx-auto mb-2" />
+                <p>Binary file ({formatFileSize(response.size)})</p>
+                <p className="text-sm text-gray-500">{response.contentType}</p>
+              </div>
+              <button
+                onClick={downloadResponse}
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+              >
+                Download File
+              </button>
+            </div>
+          )}
+
+          {response.responseType === 'unknown' && (
+            <div className="p-4">
+              <div className="text-gray-400 text-center mb-4">
+                <FileText className="w-8 h-8 mx-auto mb-2" />
+                <p>Unknown content type: {response.contentType}</p>
+              </div>
+              <CodeBlock code={response.rawText || ''} language="text" />
+            </div>
+          )}
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="space-y-6 mr-4 sm:mr-6 lg:mr-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h4 className="text-base sm:text-lg font-semibold text-white">Try This Endpoint</h4>
-        <button
-          onClick={executeRequest}
-          disabled={loading}
-          className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium shadow-lg hover:shadow-red-500/25 w-full sm:w-auto"
-        >
-          {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Play className="w-4 h-4" />
-          )}
-          <span>{loading ? 'Executing...' : 'Execute'}</span>
-        </button>
+    <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+      <div className="flex items-center space-x-3 mb-6">
+        <Play className="w-5 h-5 text-red-400" />
+        <h4 className="text-lg font-semibold text-white">Try It Now</h4>
       </div>
 
-      {/* Parameters Input */}
+      {/* Parameters */}
       {endpoint.parameters && endpoint.parameters.length > 0 && (
-        <div className="space-y-4">
-          <h5 className="text-sm sm:text-md font-semibold text-gray-200">Parameters</h5>
-          <div className="grid gap-4">
-            {endpoint.parameters.map((param, index) => (
-              <div key={index} className="space-y-2">
-                <label className="flex flex-wrap items-center gap-2 text-sm">
-                  <span className="text-red-300 font-mono break-all">{param.name}</span>
-                  <span className="text-gray-400">({param.type})</span>
-                  {param.required && (
-                    <span className="text-red-400 text-xs">*</span>
-                  )}
-                </label>
-                <input
-                  type="text"
-                  value={parameters[param.name] || ''}
-                  onChange={(e) => handleParameterChange(param.name, e.target.value)}
-                  placeholder={param.example || `Enter ${param.name}`}
-                  className="w-full px-3 py-2 bg-gray-900/50 border border-gray-700/50 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400 text-sm sm:text-base"
-                />
-                <p className="text-xs text-gray-400 break-words">{param.description}</p>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-4 mb-6">
+          <h5 className="text-md font-semibold text-gray-200">Parameters</h5>
+          {endpoint.parameters.map((param) => (
+            <div key={param.name} className="space-y-2">
+              <label className="block text-sm font-medium text-gray-300">
+                {param.name}
+                {param.required && <span className="text-red-400 ml-1">*</span>}
+              </label>
+              <input
+                type="text"
+                value={parameters[param.name] || ''}
+                onChange={(e) => handleParameterChange(param.name, e.target.value)}
+                placeholder={param.description || `Enter ${param.name}`}
+                className="w-full px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              />
+              {param.description && (
+                <p className="text-xs text-gray-400">{param.description}</p>
+              )}
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Request URL Preview */}
-      <div className="space-y-2">
-        <h5 className="text-sm sm:text-md font-semibold text-gray-200">Request URL</h5>
-        <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-700/50 overflow-x-auto">
-          <code className="text-red-300 text-xs sm:text-sm whitespace-nowrap">
-            {endpoint.method} {buildUrl()}
-          </code>
-        </div>
+      {/* Execute Button */}
+      <button
+        onClick={executeRequest}
+        disabled={loading}
+        className="w-full px-4 py-3 bg-red-500 hover:bg-red-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors flex items-center justify-center space-x-2"
+      >
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Executing...</span>
+          </>
+        ) : (
+          <>
+            <Play className="w-4 h-4" />
+            <span>Execute Request</span>
+          </>
+        )}
+      </button>
+
+      {/* URL Preview */}
+      <div className="mt-4 p-3 bg-gray-900 rounded-lg border border-gray-600">
+        <p className="text-xs text-gray-400 mb-1">Request URL:</p>
+        <code className="text-sm text-green-400 break-all">{buildUrl()}</code>
       </div>
 
-      {/* Response */}
-      {response && renderResponseContent()}
-
-      {/* Error */}
+      {/* Error Display */}
       {error && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mr-4 sm:mr-6 lg:mr-8">
-          <h5 className="text-red-400 font-semibold mb-2">Error</h5>
-          <p className="text-red-300 text-sm break-words">{error}</p>
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+          <p className="text-red-400 text-sm">{error}</p>
+        </div>
+      )}
+
+      {/* Response Display */}
+      {response && (
+        <div className="mt-6">
+          {renderResponseContent()}
         </div>
       )}
     </div>
